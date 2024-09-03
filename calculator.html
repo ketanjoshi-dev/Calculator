@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            padding: 30px;
+            color: white;
+            font-family: "San Francisco", Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2fceed;
+        }
+
+        .calculator-container {
+            max-width: 450px;
+            margin: 50px auto;
+            background-color: #1C1C1C;
+            border-radius: 20px;
+            padding-top: 30px;
+            padding-bottom: 50px;
+            padding-left: 25px;
+            padding-right: 25px;
+            box-shadow: 0 0 30px rgba(224, 217, 79, 0.868);
+        }
+
+        .calculator-info {
+            margin-top: 20px;
+            margin-left: 7px;
+            margin-right: 7px;
+            font-size: 14px;
+            text-align: justify;
+            color: #cdd4d3;
+            line-height: 1.5;
+        }
+
+        table {
+            width: 100px;
+            margin-top: 25px;
+            border: 2px transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgb(0, 0, 0);
+        }
+
+        td {
+            text-align: center;
+            padding: 2px;
+        }
+
+        input[type="text"] {
+            width: 97%;
+            height: 45px;
+            font-size: 30px;
+        }
+
+        input[type="button"] {
+            width: 100px;
+            height: 50px;
+            border-radius: 3px;
+            border: transparent;
+            font-size: 23px;
+            color: white;
+            background-color: #979696;
+            cursor: pointer;
+        }
+
+        input[type="button"]:active {
+            background-color: #3e3d3d;
+        }
+        
+        .click-animation {
+            animation: buttonClickAnimation 1s;
+        }
+
+        .special-click-animation {
+            animation: specialButtonClickAnimation 1s;
+        }
+
+        .clear-click-animation {
+            animation: clearButtonClickAnimation 1s;
+        }
+
+        @keyframes buttonClickAnimation {
+            0% {
+                background-color: #3e3d3d;
+            }
+            100% {
+                background-color: #979696;
+            }
+        }
+
+        @keyframes specialButtonClickAnimation {
+            0% {
+                background-color: #8b5408;
+            }
+            100% {
+                background-color: #FFA00A;
+            }
+        }
+
+        @keyframes clearButtonClickAnimation {
+            0% {
+                background-color: #750f0f;
+            }
+            100% {
+                background-color: #be444c;
+            }
+        }
+
+        input[type="button"][value="CLR"] {
+            background-color: #be444c;
+        }
+
+        input[type="button"][value="CLR"]:active {
+            background-color: #750f0f;
+        }
+
+        input[type="button"][value="⌫"],
+        input[type="button"][value="+"],
+        input[type="button"][value="-"],
+        input[type="button"][value="x"],
+        input[type="button"][value="÷"],
+        input[type="button"][value="sqrt"],
+        input[type="button"][value="^"],
+        input[type="button"][value="%"] {
+            background-color: #FFA00A;
+        }
+
+        input[type="button"][value="⌫"]:active,
+        input[type="button"][value="+"]:active,
+        input[type="button"][value="-"]:active,
+        input[type="button"][value="x"]:active,
+        input[type="button"][value="÷"]:active,
+        input[type="button"][value="sqrt"]:active,
+        input[type="button"][value="^"]:active,
+        input[type="button"][value="%"]:active {
+            background-color: #8b5408;
+        }
+    </style>
+
+    <script>
+        function dis(v) {
+            document.getElementById("in").value += v;
+        }
+
+        function solve() {
+            let v1 = document.getElementById("in").value;
+            v1 = v1.replace("x", "*");
+            v1 = v1.replace("÷", "/");
+            v1 = v1.replace("^", "**");
+            let v2 = eval(v1);
+            document.getElementById("in").value = v2;
+        }
+
+        function clr1() {
+            document.getElementById("in").value = "";
+        }
+
+        function sq1() {
+            let s1 = document.getElementById("in").value;
+            document.getElementById("in").value = Math.sqrt(s1);
+        }
+
+        function backspace() {
+            let currentValue = document.getElementById("in").value;
+            document.getElementById("in").value = currentValue.slice(0, -1);
+        }
+
+        function triggerAnimation(element) {
+            element.classList.remove('click-animation');
+            void element.offsetWidth;
+            element.classList.add('click-animation');
+        }
+
+        function triggerSpecialAnimation(element) {
+            element.classList.remove('special-click-animation');
+            void element.offsetWidth;
+            element.classList.add('special-click-animation');
+        }
+
+        function triggerClearAnimation(element) {
+            element.classList.remove('clear-click-animation');
+            void element.offsetWidth;
+            element.classList.add('clear-click-animation');
+        }
+    </script>
+</head>
+<body bgcolor="#12121">
+    <div class="calculator-container">
+        <h1>Calculator</h1>
+        
+        <table border="1" align="center">
+            <tr>
+                <td colspan="3"><input type="text" id="in"></td>
+                <td><input type="button" value="CLR" onclick="clr1(); triggerClearAnimation(this);"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="1" onclick="dis('1'); triggerAnimation(this);"></td>
+                <td><input type="button" value="2" onclick="dis('2'); triggerAnimation(this);"></td>
+                <td><input type="button" value="3" onclick="dis('3'); triggerAnimation(this);"></td>
+                <td><input type="button" value="⌫" onclick="backspace(); triggerSpecialAnimation(this);"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="4" onclick="dis('4'); triggerAnimation(this);"></td>
+                <td><input type="button" value="5" onclick="dis('5'); triggerAnimation(this);"></td>
+                <td><input type="button" value="6" onclick="dis('6'); triggerAnimation(this);"></td>
+                <td><input type="button" value="+" onclick="dis('+'); triggerSpecialAnimation(this);"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="7" onclick="dis('7'); triggerAnimation(this);"></td>
+                <td><input type="button" value="8" onclick="dis('8'); triggerAnimation(this);"></td>
+                <td><input type="button" value="9" onclick="dis('9'); triggerAnimation(this);"></td>
+                <td><input type="button" value="-" onclick="dis('-'); triggerSpecialAnimation(this);"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="." onclick="dis('.'); triggerAnimation(this);"></td>
+                <td><input type="button" value="0" onclick="dis('0'); triggerAnimation(this);"></td>
+                <td><input type="button" value="=" onclick="solve(); triggerAnimation(this);"></td>
+                <td><input type="button" value="x" onclick="dis('x'); triggerSpecialAnimation(this);"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="%" onclick="dis('%'); triggerSpecialAnimation(this);"></td>
+                <td><input type="button" value="^" onclick="dis('^'); triggerSpecialAnimation(this);"></td>
+                <td><input type="button" value="sqrt" onclick="sq1(); triggerSpecialAnimation(this);"></td>
+                <td><input type="button" value="÷" onclick="dis('÷'); triggerSpecialAnimation(this);"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html> 
